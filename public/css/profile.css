@@ -1,0 +1,134 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: rgb(245, 245, 245);
+}
+
+.container {
+    width: 800px;
+    margin: 40px auto;
+    border: 1px solid rgb(209, 209, 209);
+    background: white;
+}
+
+#name {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 3px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+#following {
+    color: white;
+    background: rgb(0, 0, 48);
+    width: 45%;
+    float: left;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+    border: 1px solid white;
+}
+
+#follower {
+    color: white;
+    background: rgb(0, 0, 48);
+    width: 45%;
+    float: right;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 1px solid white;
+}
+
+#name {
+    padding: 10px 0px 10px 0px;
+}
+
+#wrapper {
+    clear: both;
+}
+
+#profile-btn, #logout-btn {
+    display: inline-block;
+    border-radius: 10px;
+}
+
+#profile {
+    margin: 0 auto;
+    max-width: 95%;
+}
+
+#wrapper {
+    padding: 20px 0px 10px 0px;
+}
+
+.btn {
+    margin-left: 10px;
+    display: inline-block;
+    padding: 10px;
+    color: rgb(0, 0, 48);
+    background: rgb(238, 75, 0);
+    border-radius: 10px;
+}
+
+.text {
+    margin: 10px;
+    background: rgb(243, 243, 243);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#profile {
+    width: 90%;
+    margin: 10px 5px 10px 10px;
+    padding: 10px;
+    background: rgb(0, 0, 48);
+    border: 1px solid rgb(209, 209, 209);
+    border-radius: 10px;
+    margin: 10px auto;
+}
+
+#content {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+
+}
+
+#left {
+    background:  rgb(245, 245, 245);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+#right {
+    background:  rgb(245, 245, 245);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+} 
+
+.list {
+    border-radius: 10px;
+    border: 1px solid rgb(0, 0, 48);
+    padding: 20px;
+}
