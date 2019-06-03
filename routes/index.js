@@ -1,15 +1,9 @@
 const express = require('express');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares'); 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('main');
-    if(req.user) {
-        console.log('user exists.');
-        res.render('main', { user: req.user });
-    } else {
-        console.log('user does not exists.');
-        res.redirect('/auth/login');
-    }
+router.get('/', isLoggedIn, (req, res) => {
+    res.render('main', { user: req.user });
 });
 
 module.exports = router;
