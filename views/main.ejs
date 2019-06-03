@@ -27,7 +27,7 @@
 
         <div id="navigator">
             <div id="profile">
-                <div id="name"><b>Ronaldo</b></div>
+                <div id="name"><b><%=user.email%></b></div>
                 <div id="following">
                     <div><b>Following</b></div>
                     <div>0</div>
@@ -38,7 +38,7 @@
                 </div>
                 <div id="wrapper">
                     <a class="btn">My profile</a>
-                    <a class="btn">Log out</a>
+                    <a class="btn" href="/auth/logout" >Log out</a>
                 </div>
             </div>
             <div id="post">

@@ -8,9 +8,9 @@
 <body>
     <div class="container">
         <div id="left">
-            <form>
-                <div class="form-input"><input type="email" placeholder="email"/></div>
-                <div class="form-input"><input type="password" placeholder="password"/></div>
+            <form action="/auth/login_process" method="post">
+                <div class="form-input"><input name="email" type="email" placeholder="email"/></div>
+                <div class="form-input"><input name="password" type="password" placeholder="password"/></div>
                 <div class="form-input"><button id="login-btn" type="submit">Log in</button></div>
             </form>
             <div class="text"><a href="/auth/password">Forgot password?</a></div>

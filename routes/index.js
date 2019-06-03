@@ -3,10 +3,13 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     res.render('main');
-});
-
-router.get('/profile', (req, res) => {
-    res.render('profile');
+    if(req.user) {
+        console.log('user exists.');
+        res.render('main', { user: req.user });
+    } else {
+        console.log('user does not exists.');
+        res.redirect('/auth/login');
+    }
 });
 
 module.exports = router;
