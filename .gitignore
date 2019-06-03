@@ -5,3 +5,4 @@ uploads/*
 db.json
 passport/config/facebook.json
 passport/config/kakao.json
+config/config.json

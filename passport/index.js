@@ -2,17 +2,21 @@ const local = require('./LocalStrategy');
 const kakao = require('./KakaoStrategy');
 const facebook = require('./FacebookStrategy');
 
-const db = require('../lowdb');
+const { User } = require('../models');
 
 module.exports = (passport) => {
 
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user.dataValues.id);
     });
 
-    passport.deserializeUser((id, done) => {
-        var user = db.get('users').find( { id: id } ).value();
-        done(null, user);
+    passport.deserializeUser( async (id, done) => {
+        try {
+            var user = await User.findOne({ where: {id: id} });
+            done(null, user);
+        } catch (err) {
+            console.log(err);
+        }
     });
 
     local(passport);

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+const { sequelize } = require('./models');
 
 // Initialization
 const app = express();
@@ -15,7 +16,7 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 9001);
 const passportConfig = require('./passport');
 passportConfig(passport);
-
+sequelize.sync();
 
 // Middlewares
 // app.use(morgan('dev'));

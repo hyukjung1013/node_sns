@@ -1,7 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const db = require('../lowdb');
-const shortId = require('shortid');
+const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares'); 
 
@@ -34,34 +33,41 @@ router.get('/signup', isNotLoggedIn, (req, res) => {
     }
 });
 
-router.post('/signup_process', isNotLoggedIn ,async (req, res) => {
+router.post('/signup_process', isNotLoggedIn , async (req, res) => {
     var email = req.body.email;
     var name = req.body.name;
     var password = req.body.password;
     var nickname = req.body.nickname;
 
-    var exUser = db.get('users').find( { email: email } ).value();
+    try {
+        var exUser = await User.findOne({ where : {email: email, provider: 'local'} });
+        console.log('join_process', exUser);
+        if (exUser) {
+            req.flash('join_error_msg', 'Email already exists.');
+            return res.redirect('/auth/join');
+        } else {
+            var hash = await bcrypt.hash(password, 12);
 
-    if (exUser) {
-        req.flash('join_error_msg', 'Email already exists.');
-        return res.redirect('/auth/signup');
-    } else {
-        var hash = await bcrypt.hash(password, 12);
+            await User.create({
+                email: email,
+                nickname: nickname,
+                name: name,
+                password: hash,
+                provider: 'local'
+            });
 
-        var user = {
-            id: shortId.generate(),
-            email: email,
-            name: name,
-            password: hash,
-            nickname: nickname,
-            provider: 'local'
-        };
+            var user = await User.findOne({ where: {
+                email: email, 
+                provider: 'local'
+            } });
 
-        db.get('users').push(user).write();
-
-        req.login(user, function(err) {
-            return res.redirect('/');
-        });
+            req.login(user, function(err) {
+                return res.redirect('/');
+            });
+        }
+    } catch(err) {
+        console.log(err);
+        next(err);
     }
 });
 

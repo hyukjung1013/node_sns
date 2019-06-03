@@ -1,5 +1,5 @@
 const LocalStrategy = require('passport-local');
-const db = require('../lowdb');
+const { User } = require('../models');
 const bcrypt = require('bcrypt');
 
 module.exports = (passport) => {
@@ -7,13 +7,19 @@ module.exports = (passport) => {
         usernameField: 'email',
         passwordField: 'password'
     }, async (email, password, done) => {
-        var user = await db.get('users').find( { email: email, provider: 'local' }).value();
+
+        var user = await User.findOne({ where: {
+            email: email, 
+            provider: 'local'
+        } });
+
         if (user) {
-            var result = await bcrypt.compare(password, user.password);
+            var result = await bcrypt.compare(password, user.dataValues.password);
+
             if (result) {
                 done(null, user);
             } else {
-                return done(null, false, { message: 'Incorrect Password' });
+                done(null, false, { message: 'Password Incorrect.' });
             }
         } else {
             done(null, false, { message: 'User does not exist.' });
