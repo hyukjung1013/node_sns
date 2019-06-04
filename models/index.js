@@ -12,6 +12,7 @@ db.Sequelize = Sequelize;
 
 db.User = require('./user')(sequelize, Sequelize);
 db.Post = require('./post')(sequelize, Sequelize);
+db.Hashtag = require('./hashtag')(sequelize, Sequelize);
 
 // relation definition
 db.User.hasMany(db.Post);
@@ -28,5 +29,8 @@ db.User.belongsToMany(db.User, {
   as: 'Followings',
   through: 'Follow'
 });
+
+db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
+db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
 
 module.exports = db;
