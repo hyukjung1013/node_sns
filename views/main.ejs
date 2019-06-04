@@ -42,12 +42,12 @@
                 </div>
             </div>
             <div id="post">
-                <form id="post-form">
-                    <div id="textarea"><textarea></textarea></div>
+                <form id="post-form" action="/post/uploads_post" method="post" enctype="multipart/form-data">
+                    <div id="textarea"><textarea name="content" maxlength=140></textarea></div>
                     <div id="upload-image">
                         <span id="img-wrapper">
-                            <input id="input-file" type="file" accept="image/*" style="color: white;"/>
-                            <button id="img-btn">Post</button>
+                            <input name="img" id="input-file" type="file" accept="image/*" style="color: white;"/>
+                            <button id="img-btn" type="submit">Post</button>
                         </span>
                         <img id="img-content" class="img" src="" required/>
                     </div>
@@ -62,22 +62,22 @@
                     <button id="hashtag-btn">search</button>
                 </form>
             </div>
-            <div class="text">
-                <div id="text-name">ronaldo</div>
-                <a id="follow-btn">follow</a>
-                <div>Hello world!</div>
-                <img class="hashtag-img" src="/uploads/test.png"/>  
-            </div>
-            <div class="text">
-                <div id="text-name">ronaldo</div>
-                <a id="follow-btn">follow</a>
-                <div>Hello world!</div>  
-            </div>
-            <div class="text">
-                <div id="text-name">ronaldo</div>
-                <a id="follow-btn">follow</a>
-                <div>Hello world!</div>  
-            </div>
+            <% for ( post of posts ) { %>
+                <div class="text">
+                    <div id="text-name"><%=post.dataValues.user.dataValues.nickname%></div>
+                    <a id="follow-btn">follow</a>
+                    <div id="post-content"><%=post.dataValues.content%></div>  
+                    <% if (post.dataValues.img) { %>
+                        <div id="post-img">
+                            <img class="content-img" src="<%=post.dataValues.img%>" alt="thumbnail"/>
+                        </div>
+                    <% } %>  
+                </div>
+            <% } %>
         </div>
     </div>
+
+    <script>
+    </script>
+
 </body> 

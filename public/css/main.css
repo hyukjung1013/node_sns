@@ -204,3 +204,7 @@ textarea {
     max-width: 600px;
     margin: 0 auto;
 }
+
+.content-img {
+    border-radius: 10px;
+}
