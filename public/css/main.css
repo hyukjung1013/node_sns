@@ -134,13 +134,13 @@ textarea {
     margin: 10px 0px 10px 0px;
 }
 
-#text-name {
-    font-weight: bold;
+.text-name {
     display: inline-block;
+    font-weight: bold;
     font-size: 17px;
 }
 
-#follow-btn {
+.follow-btn {
     display: inline-block;
     border: 1px solid black;
     border-radius: 5px;
@@ -150,6 +150,10 @@ textarea {
     font-size: 12px;
     background: rgb(0, 0, 48);
     color: white;
+}
+
+.btn-wrapper {
+    display: inline-block;
 }
 
 #hashtag {

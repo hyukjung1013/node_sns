@@ -17,4 +17,16 @@ db.Post = require('./post')(sequelize, Sequelize);
 db.User.hasMany(db.Post);
 db.Post.belongsTo(db.User);
 
+db.User.belongsToMany(db.User, {
+  foreignKey: 'followingId',
+  as: 'Followers',
+  through: 'Follow'
+});
+
+db.User.belongsToMany(db.User, {
+  foreignKey: 'followerId',
+  as: 'Followings',
+  through: 'Follow'
+});
+
 module.exports = db;

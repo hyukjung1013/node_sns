@@ -30,11 +30,11 @@
                 <div id="name"><b><%=user.nickname%></b></div>
                 <div id="following">
                     <div><b>Following</b></div>
-                    <div>0</div>
+                    <div><%=user.dataValues.Followings.length || 0%></div>
                 </div>
                 <div id="follower">
                     <div><b>Follower</b></div>
-                    <div>0</div>
+                    <div><%=user.dataValues.Followers.length || 0%></div>
                 </div>
                 <div id="wrapper">
                     <a class="btn">My profile</a>
@@ -64,8 +64,14 @@
             </div>
             <% for ( post of posts ) { %>
                 <div class="text">
-                    <div id="text-name"><%=post.dataValues.user.dataValues.nickname%></div>
-                    <a id="follow-btn">follow</a>
+                    <div class="text-name"><%=post.dataValues.user.dataValues.nickname%></div>
+                    <% if(!(post.dataValues.user.dataValues.nickname === user.nickname)) { %>
+                        <div class="btn-wrapper">
+                            <input class="followed-user-id" type="hidden" value="<%=post.dataValues.user.dataValues.id%>"/>
+                            <input class="my-id" type="hidden" value="<%=user.id%>"/>
+                            <button class="follow-btn">follow</button>
+                        </div>
+                    <% } %>
                     <div id="post-content"><%=post.dataValues.content%></div>  
                     <% if (post.dataValues.img) { %>
                         <div id="post-img">
@@ -78,6 +84,24 @@
     </div>
 
     <script>
+        [].forEach.call(document.querySelectorAll('.follow-btn'), function(btn) {
+            btn.addEventListener('click', function() {
+                var followedUserId = btn.parentNode.querySelector('.followed-user-id').value;
+                var myId = btn.parentNode.querySelector('.my-id').value; 
+                if (confirm("Do you want to follow?") ) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            location.reload();
+                        } else {
+                            console.error(xhr.responseText);
+                        }
+                    };
+                    xhr.open('POST', `/user/${followedUserId}/follow`);
+                    xhr.send();
+                }
+            });
+        });
     </script>
 
 </body> 

@@ -10,13 +10,23 @@ module.exports = (passport) => {
         done(null, user.dataValues.id);
     });
 
-    passport.deserializeUser( async (id, done) => {
-        try {
-            var user = await User.findOne({ where: {id: id} });
-            done(null, user);
-        } catch (err) {
-            console.log(err);
-        }
+    passport.deserializeUser((id, done) => {
+        User.findOne({
+            where: { id },
+            include: [{
+                model: User,
+                attribute: ['id', 'nick'],
+                as: 'Followers'
+            }, {
+                model: User,
+                attribute: ['id', 'nick'],
+                as: 'Followings'
+            }],
+        })
+        .then(user => {
+            done(null, user)
+        })
+        .catch(err => done(err));
     });
 
     local(passport);

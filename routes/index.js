@@ -11,7 +11,6 @@ router.get('/', isLoggedIn, (req, res) => {
         },
         order: [['createdAt', 'DESC']]
     }).then((posts) => {
-        console.log('POSTPOST: ', posts);
         res.render('main', {
             user: req.user,
             posts: posts

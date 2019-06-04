@@ -41,7 +41,6 @@ router.post('/signup_process', isNotLoggedIn , async (req, res) => {
 
     try {
         var exUser = await User.findOne({ where : {email: email, provider: 'local'} });
-        console.log('join_process', exUser);
         if (exUser) {
             req.flash('join_error_msg', 'Email already exists.');
             return res.redirect('/auth/join');
@@ -66,7 +65,7 @@ router.post('/signup_process', isNotLoggedIn , async (req, res) => {
             });
         }
     } catch(err) {
-        console.log(err);
+        console.error(err);
         next(err);
     }
 });
