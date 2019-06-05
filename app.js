@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+const logger = require('./logger');
+const helmet = require('helmet');
+const hpp = require('hpp');
+const RedisStore = require('connect-redis')(session);
 const { sequelize } = require('./models');
 
 // Initialization
@@ -19,21 +23,41 @@ passportConfig(passport);
 sequelize.sync();
 
 // Middlewares
-// app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('combined'));
+    app.use(helmet());
+    app.use(hpp());
+} else {
+    app.use(morgan('dev'));
+}
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
+
+const sessionOption = {
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
         secure: false
-    }
-}));
+    },
+    store: new RedisStore({
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT,
+        pass: process.env.REDIS_PASSWORD,
+        logErrors: true
+    })
+}
+
+if (process.env.NODE_ENV === 'production') {
+    sessionOption.proxy = true;
+    // sessionOption.cookie.secure = true;  // for https
+}
+app.use(session(sessionOption));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -52,6 +76,8 @@ app.use('/user', userRouter);
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;
+    logger.info('hello');
+    logger.error(err.message);
     next(err);
 });
 

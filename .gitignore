@@ -4,4 +4,6 @@ uploads/*
 .env
 passport/config/facebook.json
 passport/config/kakao.json
-config/config.json
+config/config.js
+combined.log
+error.log
